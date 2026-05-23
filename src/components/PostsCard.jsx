@@ -9,6 +9,7 @@ const PostsCard = ({ post }) => {
     return (
         <Card
             className="
+            bg-red-800
                 w-full
                 overflow-hidden
                 rounded-[22px]

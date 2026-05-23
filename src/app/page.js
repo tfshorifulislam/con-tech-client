@@ -45,27 +45,34 @@ const HomePage = () => {
   return (
     <div
       className="
-        w-[95%]
-        max-w-[1900px]
-        mx-auto
-        py-7
+            w-[95%]
+            max-w-[1920px]
+            mx-auto
+            py-4
 
-        columns-2
-        md:columns-3
-        xl:columns-4
-        2xl:columns-5
+            columns-2
+            sm:columns-2
+            md:columns-3
+            xl:columns-4
+            2xl:columns-5
 
-        gap-5
-        space-y-5
-    "
+            gap-[4px]
+            md:gap-4
+        "
     >
 
       {
         posts.map(post => (
-          <PostsCard
+          <div
             key={post._id}
-            post={post}
-          />
+            className="
+                        mb-[4px]
+                        md:mb-4
+                        break-inside-avoid
+                    "
+          >
+            <PostsCard post={post} />
+          </div>
         ))
       }
 
