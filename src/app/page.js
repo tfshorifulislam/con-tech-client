@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import PostsCard from '@/components/PostsCard'
+import LoadingCSR from '@/components/LoadingForCSR'
 
 const HomePage = () => {
 
@@ -37,9 +38,9 @@ const HomePage = () => {
 
   }, [])
 
-  // if (loading) {
-  //   return <p>Loading...</p>
-  // }
+  if (loading) {
+    return <LoadingCSR />
+  }
 
   return (
     <div
