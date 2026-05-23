@@ -11,33 +11,35 @@ const PostsCard = ({ post }) => {
             className="
                 w-full
                 overflow-hidden
-                rounded-[24px]
+                rounded-[22px]
                 bg-transparent
                 shadow-none
                 break-inside-avoid
                 group
                 cursor-pointer
+                mb-5
             "
         >
 
-            {/* Pinterest Image */}
+            {/* Pinterest Natural Ratio */}
             <div
                 className="
                     relative
                     w-full
                     overflow-hidden
-                    rounded-[24px]
+                    rounded-[22px]
                     bg-zinc-100
                     dark:bg-zinc-900
                 "
             >
 
                 <Image
-                    alt={post.text || 'Post Image'}
-                    src={post.imageUrl}
-                    width={1000}
-                    height={1600}
+                    alt={post?.text || 'Post Image'}
+                    src={post?.imageUrl}
+                    width={1200}
+                    height={1200}
                     loading="lazy"
+                    quality={75}
                     sizes="
                         (max-width: 768px) 100vw,
                         (max-width: 1200px) 50vw,
@@ -45,15 +47,13 @@ const PostsCard = ({ post }) => {
                     "
                     className="
                         w-full
-                        min-h-[260px]
-                        max-h-[900px]
-
+                        h-auto
                         object-cover
 
                         transition-transform
                         duration-700
 
-                        group-hover:scale-[1.04]
+                        group-hover:scale-[1.03]
                     "
                 />
 

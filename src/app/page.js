@@ -37,42 +37,34 @@ const HomePage = () => {
 
   }, [])
 
-  if (loading) {
-    return <p>Loading...</p>
-  }
+  // if (loading) {
+  //   return <p>Loading...</p>
+  // }
 
   return (
     <div
       className="
-            w-[95%]
-            
-            mx-auto
-            py-8
+        w-[95%]
+        max-w-[1900px]
+        mx-auto
+        py-7
 
-            columns-2
-            sm:columns-2
-            md:columns-3
-            lg:columns-4
-            xl:columns-5
+        columns-2
+        md:columns-3
+        xl:columns-4
+        2xl:columns-5
 
-            gap-5
-            space-y-5
-        "
+        gap-5
+        space-y-5
+    "
     >
 
       {
         posts.map(post => (
-
-          <div
+          <PostsCard
             key={post._id}
-            className="
-                        break-inside-avoid
-                        mb-5
-                    "
-          >
-            <PostsCard post={post} />
-          </div>
-
+            post={post}
+          />
         ))
       }
 
