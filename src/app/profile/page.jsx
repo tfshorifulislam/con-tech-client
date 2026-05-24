@@ -35,10 +35,6 @@ const ProfilePage = () => {
 
                 )
 
-                console.log('CURRENT USER:', currentUser)
-                console.log('ALL POSTS:', data.posts)
-                console.log('MATCHED POSTS:', matchedPosts)
-
                 setPosts(matchedPosts || [])
 
             } catch (error) {
@@ -67,6 +63,8 @@ const ProfilePage = () => {
                     items-center
                     justify-center
                     text-zinc-500
+                    bg-white
+                    dark:bg-black
                 "
             >
                 Loading...
@@ -82,8 +80,8 @@ const ProfilePage = () => {
                 className="
                     relative
                     w-full
-                    h-[220px]
-                    md:h-[320px]
+                    h-[240px]
+                    md:h-[340px]
                     overflow-hidden
                 "
             >
@@ -95,6 +93,9 @@ const ProfilePage = () => {
                     priority
                     className='object-cover'
                 />
+
+                {/* DARK OVERLAY */}
+                <div className='absolute inset-0 bg-black/20' />
 
             </div>
 
@@ -115,8 +116,11 @@ const ProfilePage = () => {
                         flex-col
                         md:flex-row
                         md:items-end
-                        gap-5
-                        -mt-16
+                        gap-4
+                        mt-[-60px]
+                        md:mt-[-80px]
+                        relative
+                        z-20
                     "
                 >
 
@@ -130,10 +134,12 @@ const ProfilePage = () => {
                             md:h-40
                             rounded-full
                             overflow-hidden
-                            border-[5px]
+                            border-4
                             border-white
                             dark:border-black
+                            shadow-xl
                             bg-zinc-200
+                            shrink-0
                         "
                     >
 
@@ -150,7 +156,7 @@ const ProfilePage = () => {
                     </div>
 
                     {/* USER INFO */}
-                    <div className='pb-3'>
+                    <div className='pb-2 md:pb-4'>
 
                         <h1
                             className="
@@ -159,6 +165,7 @@ const ProfilePage = () => {
                                 font-bold
                                 text-black
                                 dark:text-white
+                                tracking-tight
                             "
                         >
                             {currentUser?.name}
@@ -168,6 +175,8 @@ const ProfilePage = () => {
                             className="
                                 mt-2
                                 text-zinc-500
+                                text-sm
+                                md:text-base
                             "
                         >
                             {currentUser?.email}
@@ -205,10 +214,11 @@ const ProfilePage = () => {
                             pb-4
                             text-sm
                             font-medium
+                            transition-all
 
                             ${activeTab === 'posts'
                                 ? 'border-b-2 border-black dark:border-white text-black dark:text-white'
-                                : 'text-zinc-500'}
+                                : 'text-zinc-500 hover:text-black dark:hover:text-white'}
                         `}
                     >
                         Posts
@@ -220,10 +230,11 @@ const ProfilePage = () => {
                             pb-4
                             text-sm
                             font-medium
+                            transition-all
 
                             ${activeTab === 'saved'
                                 ? 'border-b-2 border-black dark:border-white text-black dark:text-white'
-                                : 'text-zinc-500'}
+                                : 'text-zinc-500 hover:text-black dark:hover:text-white'}
                         `}
                     >
                         Saved
@@ -260,11 +271,11 @@ const ProfilePage = () => {
                                             xl:columns-4
                                             2xl:columns-5
 
-                                            gap-2
-                                            md:gap-4
+                                            gap-3
+                                            md:gap-5
 
-                                            space-y-2
-                                            md:space-y-4
+                                            space-y-3
+                                            md:space-y-5
                                         "
                                     >
 
@@ -275,8 +286,8 @@ const ProfilePage = () => {
                                                     key={post._id}
                                                     className="
                                                         break-inside-avoid
-                                                        mb-2
-                                                        md:mb-4
+                                                        mb-3
+                                                        md:mb-5
                                                         group
                                                         cursor-pointer
                                                     "
@@ -286,7 +297,7 @@ const ProfilePage = () => {
                                                     <div
                                                         className="
                                                             overflow-hidden
-                                                            rounded-3xl
+                                                            rounded-2xl
                                                             bg-zinc-100
                                                             dark:bg-zinc-900
                                                         "
@@ -320,6 +331,7 @@ const ProfilePage = () => {
                                                                     px-1
                                                                     text-sm
                                                                     font-medium
+                                                                    leading-relaxed
                                                                     text-black
                                                                     dark:text-white
                                                                 "
