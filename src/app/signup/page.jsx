@@ -117,6 +117,12 @@ export default function SignupPage() {
         }
     };
 
+    const handleGoogleLogin = async () => {
+        await authClient.signIn.social({
+            provider: "google",
+        });
+    };
+
     return (
         <div className="min-h-screen flex items-center justify-center px-4 bg-white dark:bg-neutral-950">
 
@@ -259,6 +265,7 @@ export default function SignupPage() {
 
                 {/* GOOGLE */}
                 <button
+                    onClick={handleGoogleLogin}
                     className="
                         flex
                         h-12
