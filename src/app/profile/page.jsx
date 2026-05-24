@@ -15,7 +15,7 @@ const ProfilePage = () => {
     const [activeTab, setActiveTab] = useState('posts')
     const [loading, setLoading] = useState(true)
 
-    // FETCH POSTS
+    // FETCH USER POSTS
     useEffect(() => {
 
         if (!currentUser?.id || !currentUser?.email) return
@@ -30,7 +30,7 @@ const ProfilePage = () => {
 
                 const data = await res.json()
 
-                // MATCH USER POSTS
+                // MATCH POSTS WITH CURRENT USER
                 const matchedPosts = data?.posts?.filter(post =>
 
                     post.userId === currentUser.id &&
@@ -58,51 +58,60 @@ const ProfilePage = () => {
 
     // LOADING
     if (loading) {
-        return (
-            <LoadingCSR />
-        )
+        return <LoadingCSR />
     }
 
     return (
+
         <div className="min-h-screen bg-white dark:bg-black">
 
             {/* MAIN CONTAINER */}
-            <div
-                className="
-                    w-full max-w-6xl mx-auto px-4 md:px-8">
+            <div className="w-full max-w-6xl mx-auto px-4 md:px-8">
 
                 {/* PROFILE HEADER */}
                 <div
                     className="
-                        flex flex-col md:flex-row gap-10 md:gap-16 pt-10 md:pt-14">
+                        flex
+                        flex-col
+                        md:flex-row
+                        gap-10
+                        md:gap-16
+                        pt-10
+                        md:pt-14
+                    "
+                >
 
                     {/* PROFILE IMAGE */}
-                    <div
-                        className="flex justify-center md:justify-start">
+                    <div className="flex justify-center md:justify-start">
 
                         <div
                             className="
-                                relative
-                                w-28
-                                h-28
-                                md:w-40
-                                md:h-40
-                                rounded-full
-                                overflow-hidden
-                                border
-                                border-zinc-200
-                                dark:border-zinc-800
-                                shrink-0
-                            "
+            relative
+            w-28
+            h-28
+            md:w-40
+            md:h-40
+            rounded-full
+            overflow-hidden
+            border
+            border-zinc-200
+            dark:border-zinc-800
+            shrink-0
+        "
                         >
 
                             <Image
                                 src={
-                                    currentUser?.image
+                                    currentUser?.image ||
+                                    'https://i.pravatar.cc/300'
                                 }
                                 alt={currentUser?.name || 'user'}
                                 fill
-                                className='object-cover'
+                                priority
+                                quality={100}
+                                unoptimized
+                                sizes="160px"
+                                className="object-cover"
                             />
 
                         </div>
@@ -110,37 +119,92 @@ const ProfilePage = () => {
                     </div>
 
                     {/* PROFILE INFO */}
-                    <div className='flex-1'>
+                    <div className="flex-1">
 
-                        {/* TOP */}
+                        {/* TOP SECTION */}
                         <div
-                            className="flex flex-col md:flex-row md:items-center gap-5">
+                            className="
+                                flex
+                                flex-col
+                                md:flex-row
+                                md:items-start
+                                md:justify-between
+                                gap-6
+                            "
+                        >
 
+                            {/* USER DETAILS */}
                             <div>
+
                                 <h1
                                     className="
-                                    text-2xl
-                                    md:text-3xl
-                                    font-normal
-                                    text-black
-                                    dark:text-white
-                                "
+                                        text-2xl
+                                        md:text-3xl
+                                        font-normal
+                                        text-black
+                                        dark:text-white
+                                    "
                                 >
                                     {currentUser?.name}
                                 </h1>
 
                                 <p
                                     className="
-                                    mt-1
-                                    text-sm
-                                    text-zinc-500
-                                "
+                                        mt-1
+                                        text-sm
+                                        text-zinc-500
+                                    "
                                 >
                                     {currentUser?.email}
                                 </p>
+
+                                {/* BIO */}
+                                <p
+                                    className="
+                                        mt-4
+                                        max-w-xl
+                                        text-sm
+                                        leading-relaxed
+                                        text-zinc-700
+                                        dark:text-zinc-300
+                                    "
+                                >
+                                    Frontend developer building modern web
+                                    experiences ✨ Passionate about React,
+                                    Next.js & UI/UX design.
+                                </p>
+
+                                {/* STATS */}
+                                <div
+                                    className="
+                                        flex
+                                        gap-6
+                                        mt-5
+                                        text-sm
+                                    "
+                                >
+
+                                    <p>
+                                        <span
+                                            className="
+                                                font-semibold
+                                                text-black
+                                                dark:text-white
+                                            "
+                                        >
+                                            {posts.length}
+                                        </span>{' '}
+                                        <span className="text-zinc-500">
+                                            posts
+                                        </span>
+                                    </p>
+
+                                </div>
+
                             </div>
 
-                            <div className='flex gap-3'>
+                            {/* ACTION BUTTONS */}
+                            <div className="flex gap-3">
 
                                 <button
                                     className="
@@ -175,27 +239,11 @@ const ProfilePage = () => {
                                 >
                                     Share profile
                                 </button>
+
                             </div>
+
                         </div>
 
-                        {/* STATS */}
-                        <div
-                            className="
-                                flex
-                                gap-8
-                                mt-7
-                            "
-                        >
-
-                            <div>
-                                <span className='font-semibold'>
-                                    {posts.length}
-                                </span>{' '}
-                                <span className='text-zinc-500'>
-                                    posts
-                                </span>
-                            </div>
-                        </div>
                     </div>
 
                 </div>
@@ -228,10 +276,12 @@ const ProfilePage = () => {
                                 tracking-widest
                                 font-semibold
                                 border-t
+                                transition
 
                                 ${activeTab === 'posts'
                                     ? 'border-black dark:border-white text-black dark:text-white'
-                                    : 'border-transparent text-zinc-500'}
+                                    : 'border-transparent text-zinc-500'
+                                }
                             `}
                         >
                             Posts
@@ -246,10 +296,12 @@ const ProfilePage = () => {
                                 tracking-widest
                                 font-semibold
                                 border-t
+                                transition
 
                                 ${activeTab === 'saved'
                                     ? 'border-black dark:border-white text-black dark:text-white'
-                                    : 'border-transparent text-zinc-500'}
+                                    : 'border-transparent text-zinc-500'
+                                }
                             `}
                         >
                             Saved
@@ -305,7 +357,7 @@ const ProfilePage = () => {
                                                     "
                                                 >
 
-                                                    {/* IMAGE */}
+                                                    {/* POST IMAGE */}
                                                     <Image
                                                         src={post.imageUrl}
                                                         alt={post.text || 'Post'}
@@ -317,33 +369,6 @@ const ProfilePage = () => {
                                                             group-hover:scale-105
                                                         "
                                                     />
-
-                                                    {/* HOVER OVERLAY */}
-                                                    <div
-                                                        className="
-                                                            absolute
-                                                            inset-0
-                                                            bg-black/40
-                                                            opacity-0
-                                                            group-hover:opacity-100
-                                                            transition
-                                                            flex
-                                                            items-center
-                                                            justify-center
-                                                        "
-                                                    >
-
-                                                        <div
-                                                            className="
-                                                                text-white
-                                                                font-semibold
-                                                                text-sm
-                                                            "
-                                                        >
-                                                            ❤️ {post.likes || 0}
-                                                        </div>
-
-                                                    </div>
 
                                                 </div>
 
@@ -362,6 +387,7 @@ const ProfilePage = () => {
             </div>
 
         </div>
+
     )
 }
 
