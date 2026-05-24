@@ -3,8 +3,16 @@
 import Link from "next/link";
 import { FiSearch } from "react-icons/fi";
 import { Button } from "@heroui/react";
+import { MobileDropDown } from "./MobileDropDown";
+import { authClient } from "@/lib/auth-client";
 
 export default function Navbar() {
+
+    const { data: session } = authClient.useSession()
+    const user = session?.user
+    console.log(user)
+
+
     return (
         <header className="sticky top-0 z-50 w-full bg-white/80 dark:bg-black/60 backdrop-blur-xl border-b border-neutral-200 dark:border-neutral-800">
 
@@ -35,15 +43,15 @@ export default function Navbar() {
 
                 {/* RIGHT - ICONS */}
                 <div className="flex items-center gap-3 shrink-0">
-                    <Button
-                        variant="outline"
-                        className="rounded-lg">
-                        <Link href={'/login'}>
-                            Login
-                        </Link>
-                    </Button>
+                    {user ? <MobileDropDown user={user} />
+                        : <Button
+                            variant="outline"
+                            className="rounded-lg">
+                            <Link href={'/login'}>
+                                Login
+                            </Link>
+                        </Button>}
                 </div>
-
             </div>
         </header>
     );
