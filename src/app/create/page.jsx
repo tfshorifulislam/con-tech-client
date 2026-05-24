@@ -2,8 +2,14 @@
 import React, { useState, useRef } from 'react';
 import { Button, FieldError, Form, Input, Label, TextField } from "@heroui/react";
 import axios from 'axios';
+import { authClient } from '@/lib/auth-client';
 
 const PostCreatePage = () => {
+
+    const { data: session } = authClient.useSession()
+    const currentUser = session?.user
+    console.log(currentUser)
+
     const [preview, setPreview] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [uploading, setUploading] = useState(false);
@@ -12,9 +18,10 @@ const PostCreatePage = () => {
     const formRef = useRef(null);
 
     const user = {
-        userName: "Shoriful Islam",
-        userId: "67b8f3c9d4e5f67890123456",
-        userEmail: "shoriful@example.com"
+        userName: currentUser.name || '',
+        userId: currentUser.id || '',
+        userEmail: currentUser.email || ''
+
     };
 
     const onSubmit = async (e) => {
