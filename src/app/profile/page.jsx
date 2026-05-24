@@ -3,16 +3,19 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { authClient } from '@/lib/auth-client'
+import LoadingCSR from '@/components/LoadingForCSR'
 
 const ProfilePage = () => {
 
     const { data: session } = authClient.useSession()
+
     const currentUser = session?.user
 
     const [posts, setPosts] = useState([])
     const [activeTab, setActiveTab] = useState('posts')
     const [loading, setLoading] = useState(true)
 
+    // FETCH POSTS
     useEffect(() => {
 
         if (!currentUser?.id || !currentUser?.email) return
@@ -56,142 +59,143 @@ const ProfilePage = () => {
     // LOADING
     if (loading) {
         return (
-            <div
-                className="
-                    min-h-screen
-                    flex
-                    items-center
-                    justify-center
-                    text-zinc-500
-                    bg-white
-                    dark:bg-black
-                "
-            >
-                Loading...
-            </div>
+            <LoadingCSR />
         )
     }
 
     return (
         <div className="min-h-screen bg-white dark:bg-black">
 
-            {/* COVER */}
+            {/* MAIN CONTAINER */}
             <div
                 className="
-                    relative
-                    w-full
-                    h-[240px]
-                    md:h-[340px]
-                    overflow-hidden
-                "
-            >
+                    w-full max-w-6xl mx-auto px-4 md:px-8">
 
-                <Image
-                    src='https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1600&auto=format&fit=crop'
-                    alt='cover'
-                    fill
-                    priority
-                    className='object-cover'
-                />
-
-                {/* DARK OVERLAY */}
-                <div className='absolute inset-0 bg-black/20' />
-
-            </div>
-
-            {/* CONTAINER */}
-            <div
-                className="
-                    w-[95%]
-                    max-w-[1920px]
-                    mx-auto
-                    relative
-                "
-            >
-
-                {/* USER SECTION */}
+                {/* PROFILE HEADER */}
                 <div
                     className="
-                        flex
-                        flex-col
-                        md:flex-row
-                        md:items-end
-                        gap-4
-                        mt-[-60px]
-                        md:mt-[-80px]
-                        relative
-                        z-20
-                    "
-                >
+                        flex flex-col md:flex-row gap-10 md:gap-16 pt-10 md:pt-14">
 
                     {/* PROFILE IMAGE */}
                     <div
-                        className="
-                            relative
-                            w-32
-                            h-32
-                            md:w-40
-                            md:h-40
-                            rounded-full
-                            overflow-hidden
-                            border-4
-                            border-white
-                            dark:border-black
-                            shadow-xl
-                            bg-zinc-200
-                            shrink-0
-                        "
-                    >
+                        className="flex justify-center md:justify-start">
 
-                        <Image
-                            src={
-                                currentUser?.image ||
-                                'https://i.pravatar.cc/300'
-                            }
-                            alt={currentUser?.name || 'user'}
-                            fill
-                            className='object-cover'
-                        />
+                        <div
+                            className="
+                                relative
+                                w-28
+                                h-28
+                                md:w-40
+                                md:h-40
+                                rounded-full
+                                overflow-hidden
+                                border
+                                border-zinc-200
+                                dark:border-zinc-800
+                                shrink-0
+                            "
+                        >
+
+                            <Image
+                                src={
+                                    currentUser?.image
+                                }
+                                alt={currentUser?.name || 'user'}
+                                fill
+                                className='object-cover'
+                            />
+
+                        </div>
 
                     </div>
 
-                    {/* USER INFO */}
-                    <div className='pb-2 md:pb-4'>
+                    {/* PROFILE INFO */}
+                    <div className='flex-1'>
 
-                        <h1
+                        {/* TOP */}
+                        <div
+                            className="flex flex-col md:flex-row md:items-center gap-5">
+
+                            <div>
+                                <h1
+                                    className="
+                                    text-2xl
+                                    md:text-3xl
+                                    font-normal
+                                    text-black
+                                    dark:text-white
+                                "
+                                >
+                                    {currentUser?.name}
+                                </h1>
+
+                                <p
+                                    className="
+                                    mt-1
+                                    text-sm
+                                    text-zinc-500
+                                "
+                                >
+                                    {currentUser?.email}
+                                </p>
+                            </div>
+
+                            <div className='flex gap-3'>
+
+                                <button
+                                    className="
+                                        px-5
+                                        h-9
+                                        rounded-lg
+                                        bg-zinc-100
+                                        hover:bg-zinc-200
+                                        dark:bg-zinc-900
+                                        dark:hover:bg-zinc-800
+                                        text-sm
+                                        font-medium
+                                        transition
+                                    "
+                                >
+                                    Edit profile
+                                </button>
+
+                                <button
+                                    className="
+                                        px-5
+                                        h-9
+                                        rounded-lg
+                                        bg-zinc-100
+                                        hover:bg-zinc-200
+                                        dark:bg-zinc-900
+                                        dark:hover:bg-zinc-800
+                                        text-sm
+                                        font-medium
+                                        transition
+                                    "
+                                >
+                                    Share profile
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* STATS */}
+                        <div
                             className="
-                                text-3xl
-                                md:text-5xl
-                                font-bold
-                                text-black
-                                dark:text-white
-                                tracking-tight
+                                flex
+                                gap-8
+                                mt-7
                             "
                         >
-                            {currentUser?.name}
-                        </h1>
 
-                        <p
-                            className="
-                                mt-2
-                                text-zinc-500
-                                text-sm
-                                md:text-base
-                            "
-                        >
-                            {currentUser?.email}
-                        </p>
-
-                        <p
-                            className="
-                                mt-3
-                                text-sm
-                                text-zinc-400
-                            "
-                        >
-                            {posts.length} Posts
-                        </p>
-
+                            <div>
+                                <span className='font-semibold'>
+                                    {posts.length}
+                                </span>{' '}
+                                <span className='text-zinc-500'>
+                                    posts
+                                </span>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -199,50 +203,63 @@ const ProfilePage = () => {
                 {/* TABS */}
                 <div
                     className="
-                        mt-10
-                        flex
-                        gap-10
-                        border-b
+                        mt-12
+                        border-t
                         border-zinc-200
                         dark:border-zinc-800
                     "
                 >
 
-                    <button
-                        onClick={() => setActiveTab('posts')}
-                        className={`
-                            pb-4
-                            text-sm
-                            font-medium
-                            transition-all
-
-                            ${activeTab === 'posts'
-                                ? 'border-b-2 border-black dark:border-white text-black dark:text-white'
-                                : 'text-zinc-500 hover:text-black dark:hover:text-white'}
-                        `}
+                    <div
+                        className="
+                            flex
+                            items-center
+                            justify-center
+                            gap-10
+                        "
                     >
-                        Posts
-                    </button>
 
-                    <button
-                        onClick={() => setActiveTab('saved')}
-                        className={`
-                            pb-4
-                            text-sm
-                            font-medium
-                            transition-all
+                        <button
+                            onClick={() => setActiveTab('posts')}
+                            className={`
+                                h-14
+                                text-xs
+                                uppercase
+                                tracking-widest
+                                font-semibold
+                                border-t
 
-                            ${activeTab === 'saved'
-                                ? 'border-b-2 border-black dark:border-white text-black dark:text-white'
-                                : 'text-zinc-500 hover:text-black dark:hover:text-white'}
-                        `}
-                    >
-                        Saved
-                    </button>
+                                ${activeTab === 'posts'
+                                    ? 'border-black dark:border-white text-black dark:text-white'
+                                    : 'border-transparent text-zinc-500'}
+                            `}
+                        >
+                            Posts
+                        </button>
+
+                        <button
+                            onClick={() => setActiveTab('saved')}
+                            className={`
+                                h-14
+                                text-xs
+                                uppercase
+                                tracking-widest
+                                font-semibold
+                                border-t
+
+                                ${activeTab === 'saved'
+                                    ? 'border-black dark:border-white text-black dark:text-white'
+                                    : 'border-transparent text-zinc-500'}
+                            `}
+                        >
+                            Saved
+                        </button>
+
+                    </div>
 
                 </div>
 
-                {/* POSTS */}
+                {/* POSTS GRID */}
                 {
                     activeTab === 'posts' && (
 
@@ -264,18 +281,11 @@ const ProfilePage = () => {
 
                                     <div
                                         className="
-                                            mt-8
-
-                                            columns-2
-                                            md:columns-3
-                                            xl:columns-4
-                                            2xl:columns-5
-
-                                            gap-3
-                                            md:gap-5
-
-                                            space-y-3
-                                            md:space-y-5
+                                            grid
+                                            grid-cols-2
+                                            md:grid-cols-3
+                                            gap-1
+                                            md:gap-2
                                         "
                                     >
 
@@ -285,62 +295,55 @@ const ProfilePage = () => {
                                                 <div
                                                     key={post._id}
                                                     className="
-                                                        break-inside-avoid
-                                                        mb-3
-                                                        md:mb-5
+                                                        relative
+                                                        aspect-square
+                                                        overflow-hidden
+                                                        bg-zinc-100
+                                                        dark:bg-zinc-900
                                                         group
                                                         cursor-pointer
                                                     "
                                                 >
 
                                                     {/* IMAGE */}
+                                                    <Image
+                                                        src={post.imageUrl}
+                                                        alt={post.text || 'Post'}
+                                                        fill
+                                                        className="
+                                                            object-cover
+                                                            transition
+                                                            duration-500
+                                                            group-hover:scale-105
+                                                        "
+                                                    />
+
+                                                    {/* HOVER OVERLAY */}
                                                     <div
                                                         className="
-                                                            overflow-hidden
-                                                            rounded-2xl
-                                                            bg-zinc-100
-                                                            dark:bg-zinc-900
+                                                            absolute
+                                                            inset-0
+                                                            bg-black/40
+                                                            opacity-0
+                                                            group-hover:opacity-100
+                                                            transition
+                                                            flex
+                                                            items-center
+                                                            justify-center
                                                         "
                                                     >
 
-                                                        <Image
-                                                            src={post.imageUrl}
-                                                            alt={post.text || 'Post'}
-                                                            width={1000}
-                                                            height={1600}
-                                                            loading='lazy'
+                                                        <div
                                                             className="
-                                                                w-full
-                                                                h-auto
-                                                                object-cover
-                                                                transition-transform
-                                                                duration-700
-                                                                group-hover:scale-[1.03]
+                                                                text-white
+                                                                font-semibold
+                                                                text-sm
                                                             "
-                                                        />
+                                                        >
+                                                            ❤️ {post.likes || 0}
+                                                        </div>
 
                                                     </div>
-
-                                                    {/* TEXT */}
-                                                    {
-                                                        post?.text && (
-
-                                                            <p
-                                                                className="
-                                                                    mt-3
-                                                                    px-1
-                                                                    text-sm
-                                                                    font-medium
-                                                                    leading-relaxed
-                                                                    text-black
-                                                                    dark:text-white
-                                                                "
-                                                            >
-                                                                {post.text}
-                                                            </p>
-
-                                                        )
-                                                    }
 
                                                 </div>
 
